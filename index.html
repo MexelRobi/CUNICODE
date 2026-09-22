@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUNICODE - ControlUnicode</title>
+
+
+<style>
+    :root {
+        --bg: #0b0d12;
+        --surface: #12151c;
+        --surface-2: #181c25;
+        --surface-3: #1e232e;
+        --border: #292f3b;
+        --border-hover: #3a4352;
+        --accent: #6366f1;
+        --accent-hover: #7477f5;
+        --success: #22c55e;
+        --danger: #ef4444;
+        --text: #f4f5f7;
+        --muted: #8f98a8;
+        --muted-2: #687180;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+            Inter,
+            ui-sans-serif,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        padding: 40px 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1050px;
+        margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    header {
+        margin-bottom: 32px;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .brand-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 18px;
+        color: white;
+    }
+
+    h1 {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .brand-text span {
+        color: var(--accent);
+    }
+
+    .subtitle {
+        color: var(--muted);
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    /* GRID */
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    @media (max-width: 800px) {
+        body {
+            padding: 20px 14px;
+        }
+
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* CARD */
+
+    .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 22px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 650;
+    }
+
+    .section-description {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 5px;
+        line-height: 1.4;
+    }
+
+    .number {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--surface-3);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* FORM */
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        color: #c7ccd5;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 125px;
+        resize: vertical;
+
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+
+        color: var(--text);
+        padding: 13px;
+
+        font-size: 14px;
+        line-height: 1.5;
+
+        transition:
+            border-color 0.15s ease,
+            background 0.15s ease;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: var(--surface-3);
+    }
+
+    textarea:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+    textarea::placeholder {
+        color: var(--muted-2);
+    }
+
+    /* FILE DROP */
+
+    .file-drop {
+        position: relative;
+        border: 1px dashed var(--border-hover);
+        border-radius: 10px;
+        background: var(--surface-2);
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+
+        transition:
+            border-color 0.15s ease,
+            background 0.15s ease;
+    }
+
+    .file-drop:hover,
+    .file-drop.dragover {
+        border-color: var(--accent);
+        background: #1b1f2a;
+    }
+
+    .file-drop input {
+        display: none;
+    }
+
+    .upload-icon {
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 9px;
+
+        border-radius: 8px;
+        background: var(--surface-3);
+        border: 1px solid var(--border);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: var(--muted);
+        font-size: 15px;
+    }
+
+    .file-drop-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #dce0e7;
+    }
+
+    .file-drop-subtitle {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    /* FILE INFO */
+
+    .file-info {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+
+        background: var(--surface-3);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+
+        padding: 11px 12px;
+        margin-top: 10px;
+    }
+
+    .file-info.active {
+        display: flex;
+    }
+
+    .file-details {
+        min-width: 0;
+    }
+
+    .file-name {
+        font-size: 13px;
+        font-weight: 600;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .file-size {
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 2px;
+    }
+
+    .remove-file {
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .remove-file:hover {
+        color: var(--danger);
+    }
+
+    /* OUTPUT */
+
+    .copy-container {
+        position: relative;
+    }
+
+    .copy-button {
+        position: absolute;
+        right: 9px;
+        top: 29px;
+
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        color: #cdd2da;
+
+        border-radius: 6px;
+        padding: 5px 9px;
+
+        font-size: 11px;
+        cursor: pointer;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease;
+    }
+
+    .copy-button:hover {
+        background: #252b36;
+        border-color: var(--border-hover);
+    }
+
+    .copy-button.copied {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+    }
+
+    /* BUTTONS */
+
+    .btn {
+        width: 100%;
+        border: 1px solid var(--accent);
+        border-radius: 9px;
+
+        background: var(--accent);
+        color: white;
+
+        padding: 12px 14px;
+
+        font-size: 13px;
+        font-weight: 650;
+
+        cursor: pointer;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease;
+    }
+
+    .btn:hover {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+    }
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+    .btn-success {
+        background: var(--success);
+        border-color: var(--success);
+    }
+
+    .btn-success:hover {
+        background: #2bd968;
+        border-color: #2bd968;
+    }
+
+    /* STATUS */
+
+    .status {
+        min-height: 18px;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    .status.success {
+        color: var(--success);
+    }
+
+    .status.error {
+        color: var(--danger);
+    }
+
+    /* FOOTER */
+
+    .footer {
+        text-align: center;
+        margin-top: 22px;
+        color: var(--muted-2);
+        font-size: 11px;
+    }
+</style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+<header>
+    <div class="brand">
+
+        <div class="brand-icon">
+            C
+        </div>
+
+        <div class="brand-text">
+            <h1>C<span>UNICODE</span></h1>
+
+            <div class="subtitle">
+                ControlUnicode · Invisible Binary Data
+            </div>
+        </div>
+
+    </div>
+</header>
+
+
+<div class="grid">
+
+    <!-- ENCODE -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="section-title">
+                    Pack into Control Characters
+                </div>
+
+                <div class="section-description">
+                    Convert text or any file into invisible Unicode characters.
+                </div>
+
+            </div>
+
+            <div class="number">
+                01
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="textIn">
+                PLAIN TEXT
+            </label>
+
+            <textarea
+                id="textIn"
+                placeholder="Enter your text here..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                FILE
+            </label>
+
+            <div
+                class="file-drop"
+                id="fileDrop"
+            >
+
+                <input
+                    type="file"
+                    id="fileIn"
+                >
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <div class="file-drop-title">
+                    Choose a file
+                </div>
+
+                <div class="file-drop-subtitle">
+                    Or drag and drop a file here
+                </div>
+
+            </div>
+
+
+            <div
+                class="file-info"
+                id="fileInfo"
+            >
+
+                <div class="file-details">
+
+                    <div
+                        class="file-name"
+                        id="fileName"
+                    ></div>
+
+                    <div
+                        class="file-size"
+                        id="fileSize"
+                    ></div>
+
+                </div>
+
+                <button
+                    class="remove-file"
+                    id="removeFile"
+                    type="button"
+                >
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group copy-container">
+
+            <label for="codeOut">
+                OUTPUT CODE
+            </label>
+
+            <button
+                class="copy-button"
+                id="copyBtn"
+                type="button"
+                onclick="copyResult()"
+            >
+                Copy
+            </button>
+
+            <textarea
+                id="codeOut"
+                readonly
+                placeholder="The CUNICODE code will appear here..."
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="processToUnicode()"
+        >
+            Generate & Pack
+        </button>
+
+        <div
+            class="status"
+            id="encodeStatus"
+        ></div>
+
+    </div>
+
+
+    <!-- DECODE -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="section-title">
+                    Unpack Control Characters
+                </div>
+
+                <div class="section-description">
+                    Restore the original text or file from a CUNICODE block.
+                </div>
+
+            </div>
+
+            <div class="number">
+                02
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="codeIn">
+                CUNICODE CODE
+            </label>
+
+            <textarea
+                id="codeIn"
+                placeholder="Paste your [{(< ... >)}] code here..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="textOut">
+                RECONSTRUCTED DATA
+            </label>
+
+            <textarea
+                id="textOut"
+                readonly
+                placeholder="The reconstructed data will appear here..."
+            ></textarea>
+
+        </div>
+
+
+        <div
+            id="fileDownloadArea"
+            style="display: none; margin-bottom: 18px;"
+        >
+
+            <button
+                class="btn btn-success"
+                id="downloadBtn"
+                type="button"
+            >
+                Download File
+            </button>
+
+        </div>
+
+
+        <button
+            class="btn"
+            onclick="processFromUnicode()"
+        >
+            Reconstruct Data
+        </button>
+
+        <div
+            class="status"
+            id="decodeStatus"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+    CUNICODE · Client-side processing · No data is uploaded
+</div>
+
+
+</div>
+
+<script>
+
+    /*
+     * ============================================================
+     * CUNICODE
+     * ============================================================
+     *
+     * 00 -> Zero Width Space
+     * 01 -> Zero Width Non-Joiner
+     * 10 -> Zero Width Joiner
+     * 11 -> Word Joiner
+     *
+     */
+
+    const CTRL_CHARS = [
+        '\u200B',
+        '\u200C',
+        '\u200D',
+        '\u2060'
+    ];
+
+
+    let uploadedFileBinary = null;
+    let uploadedFileName = "";
+    let decodedFileBlob = null;
+
+
+    const fileInput =
+        document.getElementById("fileIn");
+
+    const fileDrop =
+        document.getElementById("fileDrop");
+
+    const fileInfo =
+        document.getElementById("fileInfo");
+
+    const fileName =
+        document.getElementById("fileName");
+
+    const fileSize =
+        document.getElementById("fileSize");
+
+    const textInput =
+        document.getElementById("textIn");
+
+
+    /*
+     * ============================================================
+     * FILE HANDLING
+     * ============================================================
+     */
+
+    fileDrop.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+
+    fileInput.addEventListener("change", event => {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        loadFile(file);
+    });
+
+
+    fileDrop.addEventListener("dragover", event => {
+
+        event.preventDefault();
+
+        fileDrop.classList.add("dragover");
+    });
+
+
+    fileDrop.addEventListener("dragleave", () => {
+
+        fileDrop.classList.remove("dragover");
+    });
+
+
+    fileDrop.addEventListener("drop", event => {
+
+        event.preventDefault();
+
+        fileDrop.classList.remove("dragover");
+
+        const file =
+            event.dataTransfer.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        loadFile(file);
+    });
+
+
+    document
+        .getElementById("removeFile")
+        .addEventListener("click", () => {
+
+            uploadedFileBinary = null;
+            uploadedFileName = "";
+
+            fileInput.value = "";
+
+            fileInfo.classList.remove("active");
+
+            textInput.disabled = false;
+
+            document.getElementById(
+                "encodeStatus"
+            ).textContent = "";
+        });
+
+
+    function loadFile(file) {
+
+        uploadedFileName =
+            file.name;
+
+        fileName.textContent =
+            file.name;
+
+        fileSize.textContent =
+            formatFileSize(file.size);
+
+        fileInfo.classList.add("active");
+
+        textInput.value = "";
+        textInput.disabled = true;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload = event => {
+
+            uploadedFileBinary =
+                new Uint8Array(
+                    event.target.result
+                );
+
+
+            setStatus(
+                "encodeStatus",
+                "File ready to be packed.",
+                "success"
+            );
+        };
+
+
+        reader.onerror = () => {
+
+            uploadedFileBinary = null;
+
+            setStatus(
+                "encodeStatus",
+                "The file could not be read.",
+                "error"
+            );
+        };
+
+
+        reader.readAsArrayBuffer(file);
+    }
+
+
+    function formatFileSize(bytes) {
+
+        if (bytes < 1024) {
+            return bytes + " B";
+        }
+
+        if (bytes < 1024 * 1024) {
+            return (
+                bytes / 1024
+            ).toFixed(1) + " KB";
+        }
+
+        if (bytes < 1024 * 1024 * 1024) {
+            return (
+                bytes / (1024 * 1024)
+            ).toFixed(1) + " MB";
+        }
+
+        return (
+            bytes / (1024 * 1024 * 1024)
+        ).toFixed(1) + " GB";
+    }
+
+
+    /*
+     * ============================================================
+     * BYTE HELPERS
+     * ============================================================
+     */
+
+    function stringToUint8Array(str) {
+
+        return new TextEncoder().encode(str);
+    }
+
+
+    function uint8ArrayToString(arr) {
+
+        return new TextDecoder().decode(arr);
+    }
+
+
+    /*
+     * ============================================================
+     * ENCODE
+     * ============================================================
+     */
+
+    function processToUnicode() {
+
+        let bytes = null;
+        let prefix = "TEXT:";
+
+
+        if (uploadedFileBinary) {
+
+            bytes = uploadedFileBinary;
+
+            prefix =
+                "FILE:" +
+                uploadedFileName +
+                "|";
+
+        } else {
+
+            const text =
+                document
+                    .getElementById("textIn")
+                    .value;
+
+
+            if (!text) {
+
+                setStatus(
+                    "encodeStatus",
+                    "Please enter text or select a file.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            bytes =
+                stringToUint8Array(text);
+        }
+
+
+        const prefixBytes =
+            stringToUint8Array(prefix);
+
+
+        const combinedBytes =
+            new Uint8Array(
+                prefixBytes.length +
+                bytes.length
+            );
+
+
+        combinedBytes.set(prefixBytes);
+
+        combinedBytes.set(
+            bytes,
+            prefixBytes.length
+        );
+
+
+        /*
+         * Bytes -> Bits
+         */
+
+        let bitString = "";
+
+
+        for (
+            let i = 0;
+            i < combinedBytes.length;
+            i++
+        ) {
+
+            bitString +=
+                combinedBytes[i]
+                    .toString(2)
+                    .padStart(8, "0");
+        }
+
+
+        /*
+         * Bits -> 2-bit control characters
+         */
+
+        let invisibleData = "";
+
+
+        for (
+            let i = 0;
+            i < bitString.length;
+            i += 2
+        ) {
+
+            const chunk =
+                bitString.substring(
+                    i,
+                    i + 2
+                );
+
+
+            const index =
+                parseInt(chunk, 2);
+
+
+            invisibleData +=
+                CTRL_CHARS[index];
+        }
+
+
+        /*
+         * Wrapper
+         */
+
+        const finalCode =
+            `[{(<${invisibleData}>)}]`;
+
+
+        document
+            .getElementById("codeOut")
+            .value = finalCode;
+
+
+        const copyBtn =
+            document.getElementById("copyBtn");
+
+
+        copyBtn.textContent =
+            "Copy";
+
+
+        copyBtn.classList.remove(
+            "copied"
+        );
+
+
+        setStatus(
+            "encodeStatus",
+            uploadedFileBinary
+                ? "File successfully packed."
+                : "Text successfully packed.",
+            "success"
+        );
+    }
+
+
+    /*
+     * ============================================================
+     * DECODE
+     * ============================================================
+     */
+
+    function processFromUnicode() {
+
+        const inputCode =
+            document
+                .getElementById("codeIn")
+                .value;
+
+
+        const regex =
+            /\[\{\(<([\s\S]*?)>\)\}\]/;
+
+
+        const match =
+            inputCode.match(regex);
+
+
+        if (!match) {
+
+            setStatus(
+                "decodeStatus",
+                "No valid CUNICODE block found.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const hiddenContent =
+            match[1];
+
+
+        let bitString = "";
+
+
+        for (
+            const char of hiddenContent
+        ) {
+
+            const index =
+                CTRL_CHARS.indexOf(char);
+
+
+            if (index !== -1) {
+
+                bitString +=
+                    index
+                        .toString(2)
+                        .padStart(2, "0");
+            }
+        }
+
+
+        /*
+         * Only use complete bytes
+         */
+
+        if (bitString.length % 8 !== 0) {
+
+            bitString =
+                bitString.substring(
+                    0,
+                    Math.floor(
+                        bitString.length / 8
+                    ) * 8
+                );
+        }
+
+
+        const totalBytes =
+            bitString.length / 8;
+
+
+        if (totalBytes === 0) {
+
+            setStatus(
+                "decodeStatus",
+                "No binary data found.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const bytes =
+            new Uint8Array(
+                totalBytes
+            );
+
+
+        for (
+            let i = 0;
+            i < totalBytes;
+            i++
+        ) {
+
+            const byteStr =
+                bitString.substring(
+                    i * 8,
+                    (i + 1) * 8
+                );
+
+
+            bytes[i] =
+                parseInt(
+                    byteStr,
+                    2
+                );
+        }
+
+
+        /*
+         * Detect header
+         */
+
+        const testLength =
+            Math.min(
+                bytes.length,
+                500
+            );
+
+
+        const testStr =
+            uint8ArrayToString(
+                bytes.subarray(
+                    0,
+                    testLength
+                )
+            );
+
+
+        /*
+         * TEXT
+         */
+
+        if (
+            testStr.startsWith("TEXT:")
+        ) {
+
+            document
+                .getElementById("textOut")
+                .value =
+                testStr.substring(5);
+
+
+            document
+                .getElementById(
+                    "fileDownloadArea"
+                )
+                .style.display = "none";
+
+
+            setStatus(
+                "decodeStatus",
+                "Text successfully reconstructed.",
+                "success"
+            );
+
+            return;
+        }
+
+
+        /*
+         * FILE
+         */
+
+        if (
+            testStr.startsWith("FILE:")
+        ) {
+
+            const delimiterIndex =
+                testStr.indexOf("|");
+
+
+            if (
+                delimiterIndex === -1
+            ) {
+
+                setStatus(
+                    "decodeStatus",
+                    "File structure is corrupted.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const filename =
+                testStr.substring(
+                    5,
+                    delimiterIndex
+                );
+
+
+            const header =
+                testStr.substring(
+                    0,
+                    delimiterIndex + 1
+                );
+
+
+            const headerLengthInBytes =
+                stringToUint8Array(
+                    header
+                ).length;
+
+
+            const fileData =
+                bytes.subarray(
+                    headerLengthInBytes
+                );
+
+
+            document
+                .getElementById("textOut")
+                .value =
+                `File extracted: ${filename}\n` +
+                `Size: ${formatFileSize(
+                    fileData.length
+                )}`;
+
+
+            decodedFileBlob =
+                new Blob(
+                    [fileData],
+                    {
+                        type:
+                            "application/octet-stream"
+                    }
+                );
+
+
+            const downloadBtn =
+                document.getElementById(
+                    "downloadBtn"
+                );
+
+
+            downloadBtn.onclick = () => {
+
+                const url =
+                    URL.createObjectURL(
+                        decodedFileBlob
+                    );
+
+
+                const a =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                a.href = url;
+
+                a.download =
+                    filename;
+
+
+                document.body.appendChild(a);
+
+                a.click();
+
+                a.remove();
+
+
+                setTimeout(() => {
+
+                    URL.revokeObjectURL(
+                        url
+                    );
+
+                }, 1000);
+            };
+
+
+            document
+                .getElementById(
+                    "fileDownloadArea"
+                )
+                .style.display = "block";
+
+
+            setStatus(
+                "decodeStatus",
+                "File successfully reconstructed.",
+                "success"
+            );
+
+            return;
+        }
+
+
+        /*
+         * Fallback
+         */
+
+        document
+            .getElementById("textOut")
+            .value =
+            uint8ArrayToString(bytes);
+
+
+        document
+            .getElementById(
+                "fileDownloadArea"
+            )
+            .style.display = "none";
+
+
+        setStatus(
+            "decodeStatus",
+            "Data reconstructed.",
+            "success"
+        );
+    }
+
+
+    /*
+     * ============================================================
+     * COPY
+     * ============================================================
+     */
+
+    async function copyResult() {
+
+        const output =
+            document.getElementById(
+                "codeOut"
+            );
+
+
+        if (!output.value) {
+            return;
+        }
+
+
+        try {
+
+            await navigator.clipboard.writeText(
+                output.value
+            );
+
+
+            const button =
+                document.getElementById(
+                    "copyBtn"
+                );
+
+
+            button.textContent =
+                "Copied";
+
+
+            button.classList.add(
+                "copied"
+            );
+
+
+        } catch (error) {
+
+            output.select();
+
+            document.execCommand(
+                "copy"
+            );
+
+
+            const button =
+                document.getElementById(
+                    "copyBtn"
+                );
+
+
+            button.textContent =
+                "Copied";
+
+
+            button.classList.add(
+                "copied"
+            );
+        }
+    }
+
+
+    /*
+     * ============================================================
+     * STATUS
+     * ============================================================
+     */
+
+    function setStatus(
+        id,
+        message,
+        type
+    ) {
+
+        const element =
+            document.getElementById(id);
+
+
+        element.textContent =
+            message;
+
+
+        element.className =
+            "status " + type;
+    }
+
+</script>
+
+</body>
+</html>
